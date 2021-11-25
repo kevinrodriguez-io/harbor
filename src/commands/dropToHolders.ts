@@ -155,6 +155,8 @@ export const createDropToHoldersCommand =
               )
             );
 
+            logger.log(`Running mint command with metaboss.`)
+            logger.log(`Minting ${number} from: ${solanaKeypair}, to: ${ownerWallet}`);
             const output = await retry(() =>
               mintOneNFT(rpc, solanaKeypair, ownerWallet, "./temp", {
                 name: meta.name,

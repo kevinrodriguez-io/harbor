@@ -113,8 +113,9 @@ export const uploadArweaveMetadata = async (
     }
     logger.log(`${i}.json uploaded`);
     const uri = `https://arweave.net/${uploadFileTransaction.id}`;
-    await axios.head(uri);
     logger.log(`${i}.json checking url presence at ${uri}`);
+    await axios.head(uri);
+    logger.log(`${i}.json url presence is fine at ${uri}`);
     return uri;
   } catch (error) {
     logger.error(error);
