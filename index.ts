@@ -90,7 +90,15 @@ program
   .requiredOption("-k, --key <jwk>", "JWK For Arweave")
   .requiredOption("-s, --solana-keypair <solanaKeypair>", "Solana Keypair")
   .requiredOption("-i, --id <candyMachineId>", "Candy machine identifier")
-  .requiredOption("-f, --snapshotFile <snapshotFile>", "Candy machine holder snapshot file path")
+  .requiredOption(
+    "-f, --snapshotFile <snapshotFile>",
+    "Candy machine holder snapshot file path"
+  )
+  .option(
+    "-c, --cache <cache>",
+    "Cache file to use",
+    "drop-cache.json"
+  )
   .option(
     "-r, --rpc <rpc>",
     "Solana RPC To Use",

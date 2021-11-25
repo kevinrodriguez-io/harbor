@@ -10,6 +10,7 @@ import { decodeMetadata } from "../lib/metaplex/sdk.js";
 import { createArweave } from "../lib/arweave/createArweave.js";
 import { uploadNFTToArweave } from "../lib/uploader/nftUploader.js";
 import { mintOneNFT } from "../lib/metaboss.js";
+import { NFTMetaData } from "../lib/types/NFTMetaData";
 
 type DropToHoldersInput = {
   path: string;
@@ -20,6 +21,7 @@ type DropToHoldersInput = {
   rpc: string;
   threads: string;
   retries: string;
+  cache: string;
 };
 
 type CMHolderListItem = {
@@ -28,30 +30,56 @@ type CMHolderListItem = {
   mintAccount: string;
   ownerWallet: string;
 };
-function getMintAccount(string: string) {
+
+type CacheItem = {
+  arweaveUrl: string | null;
+  transactionId: string | null;
+  mint: string | null;
+  ownerWallet: string | null;
+  sourceWallet: string | null;
+  itemNumber: string | null;
+};
+
+const getMintAccount = (string: string) => {
   const stringArray = string.split("\n");
   return stringArray[1].split(":")[1].trim();
-}
+};
+
+const getTxId = (string: string) => {
+  const stringArray = string.split("\n");
+  return stringArray[0].split(":")[1].trim();
+};
 
 export const createDropToHoldersCommand =
-  (logger: Logger) =>
-  async ({
-    solanaKeypair,
-    path,
-    snapshotFile,
-    rpc,
-    threads,
-    retries: unParsedRetries,
-    key: optionsKey,
-  }: DropToHoldersInput) => {
+  (logger: Logger) => async (opts: DropToHoldersInput) => {
+    const {
+      solanaKeypair,
+      path,
+      snapshotFile,
+      rpc,
+      threads,
+      retries: unParsedRetries,
+      key: optionsKey,
+      cache,
+    } = opts;
+    logger.log("Starting drop_to_holders command.");
+    logger.log(`Opts: ${JSON.stringify(opts)}`);
     const arweave = createArweave();
-    const key = await fs.readFile(optionsKey, "utf8");
+    logger.log(`Reading Arweave Key.`);
+    const key = await fs.readFile(optionsKey, "utf-8");
+    logger.log(`Got Arweave Key.`);
+
     const jwk = JSON.parse(key);
 
     const limit = pLimit(parseInt(threads));
     const retries = parseInt(unParsedRetries);
+
+    logger.log(`Configuration - limit: ${threads}, retries: ${retries}.`);
+
     const connection = new Web3.Connection(rpc);
-    const snapshotFileContents = await fs.readFile(snapshotFile, "utf8");
+    logger.log(`Reading snapshot ${snapshotFile}`);
+    const snapshotFileContents = await fs.readFile(snapshotFile, "utf-8");
+    logger.log(`Reading snapshot ${snapshotFile} done.`);
     const holdersSnapshot: CMHolderListItem[] =
       JSON.parse(snapshotFileContents);
 
@@ -60,12 +88,26 @@ export const createDropToHoldersCommand =
 
     logger.log(`Arweave Balance: ${balance}`);
 
-    const allPromises: Promise<string>[] = [];
+    const allPromises: Promise<[string, string]>[] = [];
+
+    logger.log(`Reading Sol keypair: ${solanaKeypair}`);
+
+    const sourceKeypair = await fs
+      .readFile(solanaKeypair, "utf-8")
+      .then((key) => {
+        const keyPairSecret = JSON.parse(key) as number[];
+        return Web3.Keypair.fromSecretKey(Uint8Array.from(keyPairSecret));
+      });
+
+    logger.log(
+      `Got Sol keypair, public key: ${sourceKeypair.publicKey.toBase58()}`
+    );
+
     for (const [
       i,
       { metadataAccount, ownerWallet },
     ] of holdersSnapshot.entries()) {
-      const promise = limit(async () =>
+      const promise: Promise<[string, string]> = limit(async () =>
         retry(
           async () => {
             const tokenMetadataAccountInfo = await connection.getAccountInfo(
@@ -74,11 +116,24 @@ export const createDropToHoldersCommand =
             const attachedMetadata = decodeMetadata(
               tokenMetadataAccountInfo!.data
             );
+
             const number = parseInt(attachedMetadata.data.name.split("#")[1]); // Turns JungleCats #0011 into 11.
+
+            const fileContents = JSON.parse(
+              await fs.readFile(
+                libPath.resolve(path, `${number}.json`),
+                "utf-8"
+              )
+            ) as NFTMetaData;
+
+            const imageFormat = fileContents.image.endsWith("gif")
+              ? "gif"
+              : "jpg";
+
             const uri = await uploadNFTToArweave(
               {
                 animatedFormat: "none",
-                imageFormat: "jpg", // TODO: Try and read .gif or .jpg from metadata to determine imageFormat.
+                imageFormat,
                 item: number,
                 optionsPath: path,
                 pseudoCachePath: "",
@@ -92,23 +147,21 @@ export const createDropToHoldersCommand =
               5,
               false
             );
+
             const meta = JSON.parse(
               await fs.readFile(
                 libPath.resolve(path, `${number}.json`),
                 "utf-8"
               )
             );
-            const output = await mintOneNFT(
-              rpc,
-              solanaKeypair,
-              ownerWallet,
-              "./temp",
-              {
+
+            const output = await retry(() =>
+              mintOneNFT(rpc, solanaKeypair, ownerWallet, "./temp", {
                 name: meta.name,
                 symbol: meta.symbol,
                 uri,
                 seller_fee_basis_points: meta.seller_fee_basis_points,
-                creators: meta.creators.map(
+                creators: meta.properties.creators.map(
                   (creator: {
                     address: string;
                     verified: boolean;
@@ -118,11 +171,38 @@ export const createDropToHoldersCommand =
                     verified: false,
                   })
                 ),
+              }), {
+                retries: 5,
+                onRetry: (error, attempt) => {
+                  logger.error(`Retrying minting: ${error.message}. Attempt: ${attempt}/5`);
+                }
               }
             );
+
             logger.log(output);
+            const txId = getTxId(output);
             const mintAccount = getMintAccount(output);
-            return mintAccount;
+
+            const cacheItem: CacheItem = {
+              arweaveUrl: uri,
+              transactionId: txId,
+              mint: mintAccount,
+              itemNumber: number.toString(),
+              ownerWallet,
+              sourceWallet: sourceKeypair.publicKey.toBase58(),
+            };
+
+            logger.log(
+              `Saving cacheItem: ${JSON.stringify(cache)} in ${cache}`
+            );
+
+            await fs.appendFile(
+              cache,
+              JSON.stringify(cacheItem) + "\n",
+              "utf-8"
+            );
+
+            return [txId, mintAccount];
           },
           {
             retries,
@@ -138,18 +218,24 @@ export const createDropToHoldersCommand =
     }
     const results = await Promise.allSettled(allPromises);
     const failed = results.filter((result) => result.status === "rejected");
+
+    logger.log("Finished items.");
+
     if (failed.length > 0) {
       logger.error(`${failed.length} of ${holdersSnapshot.length} failed.`);
     } else {
       // Write all successful promises mints to a file.
       const successfulMints = results.filter(
         (result) => result.status === "fulfilled"
-      );
+      ) as PromiseFulfilledResult<[string, string]>[];
       const successfulMintsString = JSON.stringify(
-        successfulMints.map((result) => (result as any).value)
+        successfulMints.map((result) => ({
+          txId: result.value[0],
+          mint: result.value[1],
+        }))
       );
       await fs.writeFile(
-        libPath.resolve('./', "successfulMints.json"),
+        libPath.resolve("./", "successfulMints.json"),
         successfulMintsString
       );
     }

@@ -1,6 +1,6 @@
 import { PublicKey } from "@solana/web3.js";
 import { deserializeUnchecked } from "borsh";
-import { Metadata, METADATA_SCHEMA } from "./types";
+import { Metadata, METADATA_SCHEMA } from "./types.js";
 
 export const METAPLEX_PROGRAM_ID =
   "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s";
