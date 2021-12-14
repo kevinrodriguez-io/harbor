@@ -117,7 +117,7 @@ export const createDropToHoldersCommand =
               tokenMetadataAccountInfo!.data
             );
 
-            const number = parseInt(attachedMetadata.data.name.split("#")[1]); // Turns JungleCats #0011 into 11.
+            const number = parseInt(attachedMetadata.data.name.split("#")[1]);
 
             const fileContents = JSON.parse(
               await fs.readFile(

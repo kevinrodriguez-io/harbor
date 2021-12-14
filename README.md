@@ -22,6 +22,19 @@ Overall help:
 $ harbor --help
 ```
 
+### Using the `drop_to_holders` command:
+
+⚠️ Warning, this costs around 2$ per NFT, so use it wisely.
+
+Similar to a Candy-Machine drop, but instead of creating a candy machine,
+it mints and airdrops directly to a Candy Machine set of Holders over the air.
+
+99% of the time you're better off using gumdrop. However, this command is made
+so you can airdrop, let's say: 0.json + 0.png to YourNFT #0 (Paired, 1:1); This
+allows for a more flexible and customizable airdrop.
+
+I've used this for JungleCats glitches.
+
 ### Using the `upload` Command:
 
 Given an `arweave-jwk.json` file and a `files` folder that contains candy-machine
