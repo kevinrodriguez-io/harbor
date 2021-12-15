@@ -1,0 +1,27 @@
+{
+  "name": "",
+  "symbol": "JCATS",
+  "image": "0.png",
+  "description": "Welcome to the Medieval Faction Fight Club!",
+  "seller_fee_basis_points": 500,
+  "attributes": [],
+  "collection": {
+    "name": "Medieval Faction Fight Club",
+    "family": "Origins"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "nft.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "KNG5iaoiXosWhFmsCRsBKnUX6swRRRpNZu7A5CY3Zno",
+        "share": 100
+      }
+    ]
+  }
+}
