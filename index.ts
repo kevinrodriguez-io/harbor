@@ -12,6 +12,7 @@ import { createShuffleCommand } from "./src/commands/shuffle.js";
 import { createFixMissingPostMintCommand } from "./src/commands/fixMissingPostMint.js";
 import { createDonateCommand } from "./src/commands/donate.js";
 import { createDropToHoldersCommand } from "./src/commands/dropToHolders.js";
+import { createBuildLayersJSONCommand } from "./src/commands/buildLayersJSON.js";
 
 const __dirname = path.resolve();
 
@@ -94,11 +95,7 @@ program
     "-f, --snapshotFile <snapshotFile>",
     "Candy machine holder snapshot file path"
   )
-  .option(
-    "-c, --cache <cache>",
-    "Cache file to use",
-    "drop-cache.json"
-  )
+  .option("-c, --cache <cache>", "Cache file to use", "drop-cache.json")
   .option(
     "-r, --rpc <rpc>",
     "Solana RPC To Use",
@@ -107,5 +104,15 @@ program
   .option("-t, --threads <threads>", "Threads to use (Parallelization)", "10")
   .option("-k, --retries <retries>", "Retries", "5")
   .action(createDropToHoldersCommand(logger));
+
+program
+  .command("build_layers_json")
+  .requiredOption("-p, --path <path>", "Input layers folders path")
+  .requiredOption(
+    "-o, --output <output>",
+    "Output file to write",
+    "layers.json"
+  )
+  .action(createBuildLayersJSONCommand(logger));
 
 program.parse(process.argv);

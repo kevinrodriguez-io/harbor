@@ -33,6 +33,7 @@
     "chance": "^1.1.8",
     "cli-progress": "^3.9.1",
     "commander": "^8.3.0",
+    "images": "^3.2.3",
     "lodash.includes": "^4.3.0",
     "mkdirp": "^1.0.4",
     "ora": "^6.0.1",
