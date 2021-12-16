@@ -1,0 +1,163 @@
+{
+  "Accessories": {
+    "items": [
+      "Binoculars",
+      "Bone Necklace",
+      "Butterfly Wings",
+      "Camera",
+      "Earrings",
+      "Headphone",
+      "Pearl Necklace",
+      "Sea Shell"
+    ],
+    "weights": [12, 12, 12, 12, 12, 12, 12, 12],
+    "priority": 7
+  },
+  "Background": {
+    "items": [
+      "Aurora",
+      "Blue",
+      "Brown",
+      "Cherry Blossom",
+      "Green",
+      "Grey",
+      "Jungle",
+      "Orange",
+      "Pink",
+      "Queens Card",
+      "Red",
+      "Savanna",
+      "Trippy",
+      "Watering Hole",
+      "Yellow"
+    ],
+    "weights": [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
+    "priority": 0
+  },
+  "Eyes": {
+    "items": [
+      "Blue",
+      "Cat Eyes",
+      "Dragon Eyes",
+      "Eye Patch",
+      "Glowing Blue",
+      "Glowing White",
+      "Glowing Yellow",
+      "Green",
+      "Heart Glasses",
+      "Laser Eyes",
+      "Nerd Glasses",
+      "Opera Mask",
+      "Orange eyes",
+      "Pit Vipers",
+      "Ray Eyes",
+      "Red",
+      "Ski Googles",
+      "Snake Eyes",
+      "Solana Eyes",
+      "Soundwave Goggles",
+      "Steam Punk",
+      "VR",
+      "Yellow",
+      "Zombie"
+    ],
+    "weights": [
+      4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4
+    ],
+    "priority": 3
+  },
+  "Head": {
+    "items": [
+      "Black Visor",
+      "Blue Visor",
+      "Brain",
+      "Chef Hat",
+      "Cleopatra",
+      "Cowboy Hat",
+      "Devil Horns",
+      "Flower",
+      "Green Mushroom Hat",
+      "Hair Clip",
+      "Halo",
+      "Light Bulb",
+      "Pink Visor",
+      "Pirate Hat",
+      "Purple Mushroom Hat",
+      "Rose Crown",
+      "Safari Hat",
+      "Santa Hat",
+      "Sombrero",
+      "Tiara",
+      "Unicorn Horn",
+      "VPN Halo",
+      "Viking Helmet",
+      "Wizard Hat"
+    ],
+    "weights": [
+      4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4
+    ],
+    "priority": 6
+  },
+  "Mouth": {
+    "items": [
+      "Cigar",
+      "Flower",
+      "Gas Mask",
+      "Grapes",
+      "Microphone",
+      "Mouse",
+      "Pipe",
+      "Scuba",
+      "Sneakers",
+      "Stitched",
+      "Whistle"
+    ],
+    "weights": [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
+    "priority": 4
+  },
+  "Nose": {
+    "items": ["Butterfly", "Ring", "Septum", "Stud"],
+    "weights": [25, 25, 25, 25],
+    "priority": 5
+  },
+  "Skins": {
+    "items": ["Albino", "Base", "Black", "Cyber", "Gold", "Ice", "Zebra"],
+    "weights": [14, 14, 14, 14, 14, 14, 14],
+    "priority": 1
+  },
+  "Top": {
+    "items": [
+      "Backpack",
+      "Black Hoodie",
+      "Black Puffer Jacket",
+      "Black Shirt",
+      "Blue Shirt",
+      "Blue Tracksuit",
+      "Cargo Vest",
+      "Cream Puffer Jacket",
+      "Doctor",
+      "Dress",
+      "Green Poncho",
+      "Green Puffer Jacket",
+      "Green Shirt",
+      "Green Tracksuit",
+      "Kimono",
+      "Pink Tracksuit",
+      "Puffer Vest",
+      "Purple Puffer Jacket",
+      "Purple Shirt",
+      "Queen Robe",
+      "Red Poncho",
+      "Solana Hoodie",
+      "Tank Top",
+      "White Hoodie",
+      "White Tracksuit",
+      "Yellow Shirt"
+    ],
+    "weights": [
+      3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+      3
+    ],
+    "priority": 2
+  }
+}

@@ -1,13 +1,13 @@
 {
-  "name": "",
-  "symbol": "JCATS",
+  "name": "Lioness",
+  "symbol": "JCATSL",
   "image": "0.png",
-  "description": "Welcome to the Medieval Faction Fight Club!",
+  "description": "The Queen of the Solana Jungle has arrived! These high-quality 3D Lionesses do a whole lot more than just look good. Just wait until you see these lionesses stomping around the metaverse! https://junglecats.io/",
   "seller_fee_basis_points": 500,
   "attributes": [],
   "collection": {
-    "name": "Medieval Faction Fight Club",
-    "family": "Origins"
+    "name": "Lionesses",
+    "family": "JungleCats"
   },
   "properties": {
     "files": [
@@ -19,8 +19,12 @@
     "category": "image",
     "creators": [
       {
-        "address": "KNG5iaoiXosWhFmsCRsBKnUX6swRRRpNZu7A5CY3Zno",
-        "share": 100
+        "address": "JCTZQ7fzLkS9j3z4bmwmsJuqzpDyqxLB2NwdGdajk2Wm",
+        "share": 90
+      },
+      {
+        "address": "daoXo7FeRBb4gonerEKhGB5X8rkC9ag16s7cspLYR9g",
+        "share": 10
       }
     ]
   }

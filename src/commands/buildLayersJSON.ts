@@ -12,7 +12,10 @@ export const createBuildLayersJSONCommand =
     logger.log(`Building layers JSON file at ${output}`);
     const rootFolder = await fs.readdir(path);
     logger.log(`Found ${rootFolder.length} layers`);
-    const result: Record<string, { items: string[]; weights: number[] }> = {};
+    const result: Record<
+      string,
+      { items: string[]; weights: number[]; priority: number }
+    > = {};
     for (const folder of rootFolder) {
       const layerItems = await fs.readdir(`${path}/${folder}`);
       result[folder] = {
@@ -20,6 +23,7 @@ export const createBuildLayersJSONCommand =
         weights: Array(layerItems.length).fill(
           Math.floor(100 / layerItems.length)
         ),
+        priority: 0,
       };
     }
     logger.log(`Writing layers JSON file at ${output}`);

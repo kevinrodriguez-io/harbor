@@ -4,6 +4,7 @@ import images from "images";
   const [_, __, item, outputFormat, outputPath, background, ...items] =
     process.argv;
   const image = images(background);
+  // Sort the items array, if the first item is "Skins", put it first
   for (const item of items) {
     image.draw(images(item), 0, 0);
   }

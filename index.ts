@@ -13,6 +13,7 @@ import { createFixMissingPostMintCommand } from "./src/commands/fixMissingPostMi
 import { createDonateCommand } from "./src/commands/donate.js";
 import { createDropToHoldersCommand } from "./src/commands/dropToHolders.js";
 import { createBuildLayersJSONCommand } from "./src/commands/buildLayersJSON.js";
+import { createGenerateArtCommand } from "./src/commands/generateArt.js";
 
 const __dirname = path.resolve();
 
@@ -114,5 +115,21 @@ program
     "layers.json"
   )
   .action(createBuildLayersJSONCommand(logger));
+
+program
+  .command("generate_art")
+  .requiredOption(
+    "-j, --json-template-path <jsonTemplatePath>",
+    "JSON Template Input Path"
+  )
+  .requiredOption(
+    "-l, --layers-config-path <layersConfigPath>",
+    "Layers configuration path"
+  )
+  .requiredOption("-p, --layers-path <layersPath>", "Path of the layers folder")
+  .requiredOption("-o, --output-path <outputPath>", "Path to write files into")
+  .requiredOption("-a, --amount <amount>", "Amount of entries to generate")
+  .requiredOption("-f, --output-format <outputFormat>", "Output format")
+  .action(createGenerateArtCommand(logger));
 
 program.parse(process.argv);

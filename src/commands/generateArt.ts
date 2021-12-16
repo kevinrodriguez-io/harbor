@@ -12,17 +12,19 @@ import { padNumber } from "../lib/tools/string.js";
 const cpuCount = os.cpus().length;
 const limit = pLimit(cpuCount);
 
-const PAINTER_SCRIPT = "../scripts/painter.js";
+const PAINTER_SCRIPT = "./bin/src/scripts/painter.js";
 
 type LayerConfigItem = {
   items: string[];
   weights: number[];
+  priority: number;
 };
 
 type LayerItem = {
   layerName: string;
   item: string;
   uri: string;
+  priority: number;
 };
 
 export type GenerateArtPluginsInput = {
@@ -49,6 +51,11 @@ const getLayersConfig = async (layersConfigPath: string) =>
     LayerConfigItem
   >;
 
+type PickedLayer = {
+  priority: number;
+  pickedLayerItem: string;
+};
+
 const pickLayers = (
   layersConfig: Record<string, LayerConfigItem>,
   chance: Chance.Chance = new Chance()
@@ -56,9 +63,15 @@ const pickLayers = (
   Object.entries(layersConfig).reduce(
     (acc, [layerName, layerConfig]) => ({
       ...acc,
-      [layerName]: chance.weighted(layerConfig.items, layerConfig.weights),
+      [layerName]: {
+        priority: layerConfig.priority,
+        pickedLayerItem: chance.weighted(
+          layerConfig.items,
+          layerConfig.weights
+        ),
+      },
     }),
-    {} as Record<string, string>
+    {} as Record<string, PickedLayer>
   );
 
 const getLayerItemUri = async (
@@ -76,17 +89,21 @@ const getLayerItemUri = async (
 
 const getLayerItemUris = (
   layersPath: string,
-  pickedItems: Record<string, string>
+  pickedItems: Record<string, PickedLayer>
 ) =>
   Promise.all(
-    Object.entries(pickedItems).map(
-      async ([layerName, item]) =>
-        ({
-          layerName,
-          item,
-          uri: await getLayerItemUri(layersPath, { layerName, item }),
-        } as LayerItem)
-    )
+    Object.entries(pickedItems).map(async ([layerName, item]) => {
+      const uri = await getLayerItemUri(layersPath, {
+        layerName,
+        item: item.pickedLayerItem,
+      });
+      return {
+        layerName,
+        uri,
+        item: item.pickedLayerItem,
+        priority: item.priority,
+      } as LayerItem;
+    })
   );
 
 const writeImage = async (
@@ -100,7 +117,7 @@ const writeImage = async (
       i.toString(),
       outputFormat,
       outputPath,
-      ...items.map((i) => i.uri),
+      ...items.sort((a, b) => a.priority - b.priority).map(({ uri }) => uri),
     ])
       .on("exit", () => resolve(`${outputPath}/${i}.${outputFormat}`))
       .on("error", () => reject());
