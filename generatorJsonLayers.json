@@ -11,7 +11,7 @@
       "Sea Shell"
     ],
     "weights": [12, 12, 12, 12, 12, 12, 12, 12],
-    "priority": 7
+    "priority": 3
   },
   "Background": {
     "items": [
@@ -64,7 +64,7 @@
     "weights": [
       4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4
     ],
-    "priority": 3
+    "priority": 6
   },
   "Head": {
     "items": [
@@ -96,7 +96,7 @@
     "weights": [
       4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4
     ],
-    "priority": 6
+    "priority": 7
   },
   "Mouth": {
     "items": [
@@ -120,7 +120,7 @@
     "weights": [25, 25, 25, 25],
     "priority": 5
   },
-  "Skins": {
+  "Skin": {
     "items": ["Albino", "Base", "Black", "Cyber", "Gold", "Ice", "Zebra"],
     "weights": [14, 14, 14, 14, 14, 14, 14],
     "priority": 1

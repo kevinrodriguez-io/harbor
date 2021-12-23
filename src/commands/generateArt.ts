@@ -8,6 +8,7 @@ import _includes from "lodash.includes";
 import { NFTMetaData } from "../lib/types/NFTMetaData";
 import { Logger } from "../lib/types/Logger";
 import { padNumber } from "../lib/tools/string.js";
+import mkdirp from "mkdirp";
 
 const cpuCount = os.cpus().length;
 const limit = pLimit(cpuCount);
@@ -27,12 +28,6 @@ type LayerItem = {
   priority: number;
 };
 
-export type GenerateArtPluginsInput = {
-  preGenerateRarityPluginPath?: string | null;
-  onGenerateRarityPluginPath?: string | null;
-  postGenerateRarityPluginPath?: string | null;
-};
-
 export type GenerateArtInput = {
   jsonTemplatePath: string;
   layersConfigPath: string;
@@ -40,7 +35,7 @@ export type GenerateArtInput = {
   outputPath: string;
   amount: string;
   outputFormat: "png" | "jpeg";
-} & GenerateArtPluginsInput;
+};
 
 const getJsonTemplate = async (jsonTemplatePath: string) =>
   JSON.parse(await fs.readFile(jsonTemplatePath, "utf-8")) as NFTMetaData;
@@ -56,11 +51,31 @@ type PickedLayer = {
   pickedLayerItem: string;
 };
 
-const pickLayers = (
-  layersConfig: Record<string, LayerConfigItem>,
+const reRollIfException = (
+  layer: string,
+  exceptions: string[],
+  {
+    items,
+    config,
+  }: {
+    items: Record<string, PickedLayer>;
+    config: Record<string, LayerConfigItem>;
+  },
   chance: Chance.Chance = new Chance()
-) =>
-  Object.entries(layersConfig).reduce(
+) => {
+  while (exceptions.includes(items[layer].pickedLayerItem)) {
+    items[layer].pickedLayerItem = chance.weighted(
+      config[layer].items,
+      config[layer].weights
+    );
+  }
+};
+
+const pickLayers = (
+  config: Record<string, LayerConfigItem>,
+  chance: Chance.Chance = new Chance()
+) => {
+  const items = Object.entries(config).reduce(
     (acc, [layerName, layerConfig]) => ({
       ...acc,
       [layerName]: {
@@ -73,6 +88,210 @@ const pickLayers = (
     }),
     {} as Record<string, PickedLayer>
   );
+
+  // TODO: Move this into a re-ordering worker plugin.
+  //#region JungleCats Lionesses
+  if (items["Head"].pickedLayerItem === "Cleopatra") {
+    reRollIfException(
+      "Eyes",
+      [
+        "Eye Patch",
+        "Heart Glasses",
+        "Nerd Glasses",
+        "Opera Mask",
+        "Pit Vipers",
+        "Ski Goggles",
+        "Soundwave Goggles",
+        "Steam Punk",
+        "VR",
+      ],
+      { items, config }
+    );
+    reRollIfException("Accessories", ["Earrings"], { items, config });
+    reRollIfException(
+      "Mouth",
+      ["Microphone", "Scuba", "Cigar", "Flower", "Grapes", "Pipe"],
+      { items, config }
+    );
+  } else if (items["Head"].pickedLayerItem === "Devil Horns") {
+    reRollIfException(
+      "Eyes",
+      [
+        "Eye Patch",
+        "Nerd Glasses",
+        "Opera Mask",
+        "Pit Vipers",
+        "Steam Punk",
+        "VR",
+      ],
+      { items, config }
+    );
+  } else if (items["Head"].pickedLayerItem === "Unicorn Horn") {
+    reRollIfException(
+      "Eyes",
+      [
+        "Eye Patch",
+        "Heart Glasses",
+        "Nerd Glasses",
+        "Opera Mask",
+        "Pit Vipers",
+        "Ski Goggles",
+        "Soundwave Goggles",
+        "Steam Punk",
+        "VR",
+      ],
+      { items, config }
+    );
+  } else if (items["Head"].pickedLayerItem === "Viking Helmet") {
+    reRollIfException(
+      "Eyes",
+      [
+        "Eye Patch",
+        "Heart Glasses",
+        "Pit Vipers",
+        "Ski Goggles",
+        "Soundwave Goggles",
+        "Steam Punk",
+        "VR",
+      ],
+      { items, config }
+    );
+  } else if (items["Head"].pickedLayerItem === "Brain") {
+    reRollIfException("Eyes", ["Pit Vipers", "Opera Mask"], { items, config });
+  } else if (items["Head"].pickedLayerItem === "Chef hat") {
+    reRollIfException("Eyes", ["Opera Mask"], { items, config });
+  } else if (items["Head"].pickedLayerItem === "Cowboy hat") {
+    reRollIfException("Eyes", ["Soundwave Goggles", "Ski Goggles"], {
+      items,
+      config,
+    });
+  } else if (
+    ["Green Mushroom Hat", "Purple Mushroom Hat"].includes(
+      items["Head"].pickedLayerItem
+    )
+  ) {
+    reRollIfException("Eyes", ["Ski Goggles", "Soundwave Goggles", "VR"], {
+      items,
+      config,
+    });
+  } else if (
+    ["Pink Visor", "Blue Visor"].includes(items["Head"].pickedLayerItem)
+  ) {
+    reRollIfException("Eyes", ["Soundwave Goggles", "Ski Goggles"], {
+      items,
+      config,
+    });
+  } else if (items["Head"].pickedLayerItem === "Pirate Hat") {
+    reRollIfException("Eyes", ["VR", "Pit Vipers", "Opera Mask"], {
+      items,
+      config,
+    });
+  } else if (items["Head"].pickedLayerItem === "Santa Hat") {
+    reRollIfException(
+      "Eyes",
+      ["Soundwave Goggles", "Ski Goggles", "VR", "Steam Punk"],
+      {
+        items,
+        config,
+      }
+    );
+  } else if (items["Head"].pickedLayerItem === "Tiara") {
+    reRollIfException("Eyes", ["VR", "Steam Punk", "Opera Mask"], {
+      items,
+      config,
+    });
+  } else if (items["Head"].pickedLayerItem === "Wizard Hat") {
+    reRollIfException("Eyes", ["Soundwave Goggles", "Ski Goggles"], {
+      items,
+      config,
+    });
+  } else if (items["Eyes"].pickedLayerItem === "Opera Mask") {
+    reRollIfException("Mouth", ["Gas Mask", "Microphone", "Scuba"], {
+      items,
+      config,
+    });
+    reRollIfException("Nose", ["Stud", "Ring", "Septum"], {
+      items,
+      config,
+    });
+  } else if (
+    ["Laser Eyes", "Ray Eyes"].includes(items["Eyes"].pickedLayerItem)
+  ) {
+    reRollIfException("Nose", ["Butterfly"], {
+      items,
+      config,
+    });
+  } else if (items["Eyes"].pickedLayerItem === "Pit Vipers") {
+  } else if (items["Mouth"].pickedLayerItem === "Gas Mask") {
+    reRollIfException("Nose", ["Stud", "Ring", "Septum"], {
+      items,
+      config,
+    });
+  } else if (items["Mouth"].pickedLayerItem === "Scuba") {
+    items["Nose"].pickedLayerItem = "None";
+    reRollIfException("Accessories", ["Butterfly Wings"], {
+      items,
+      config,
+    });
+  } else if (items["Skin"].pickedLayerItem === "Zombie") {
+    reRollIfException(
+      "Eyes",
+      [
+        "Blue",
+        "Cat Eyes",
+        "Dragon Eyes",
+        "Glowing Blue",
+        "Glowing White",
+        "Glowing Yellow",
+        "Green",
+        "Orange",
+        "Red",
+        "Snake Eyes",
+        "Solana Eyes",
+        "Yellow",
+      ],
+      {
+        items,
+        config,
+      }
+    );
+  }
+  //#endregion
+
+  //#region Ordering
+  if (items["Accessories"].pickedLayerItem === "Butterfly Wings") {
+    for (const layer of Object.keys(items)) {
+      if (layer !== "Background") {
+        items[layer].priority += 1;
+      }
+    }
+    items["Accessories"].priority = 1;
+  }
+  if (items["Mouth"].pickedLayerItem === "Scuba") {
+    for (const layer of Object.keys(items)) {
+      if (layer !== "Background") {
+        items[layer].priority += 1;
+      }
+    }
+    items["Pseudo"] = {
+      pickedLayerItem: "Scuba",
+      priority: 1,
+    }
+  }
+  if (items["Nose"].pickedLayerItem === "Butterfly" && items["Accessories"].pickedLayerItem !== "Butterfly Wings") {
+    items["Accessories"].priority = 8; // Head is the topmost, and it's 7
+  }
+  if (
+    ["Ski Goggles", "Ski Goggles"].includes(
+      items["Accessories"].pickedLayerItem
+    )
+  ) {
+    items["Accessories"].priority = 8; // Head is the topmost, and it's 7
+  }
+  //#endregion
+
+  return items;
+};
 
 const getLayerItemUri = async (
   layersPath: string,
@@ -91,18 +310,15 @@ const getLayerItemUris = (
   layersPath: string,
   pickedItems: Record<string, PickedLayer>
 ) =>
-  Promise.all(
-    Object.entries(pickedItems).map(async ([layerName, item]) => {
-      const uri = await getLayerItemUri(layersPath, {
+  Object.entries(pickedItems).map<Promise<LayerItem>>(
+    async ([layerName, { pickedLayerItem: item, priority }]) => ({
+      layerName,
+      item,
+      priority,
+      uri: await getLayerItemUri(layersPath, {
         layerName,
-        item: item.pickedLayerItem,
-      });
-      return {
-        layerName,
-        uri,
-        item: item.pickedLayerItem,
-        priority: item.priority,
-      } as LayerItem;
+        item,
+      }),
     })
   );
 
@@ -157,9 +373,9 @@ const generateNFT = async (
   layersConfig: Record<string, LayerConfigItem>,
   jsonTemplate: NFTMetaData
 ) => {
-  const pickedLayerItems = await getLayerItemUris(
-    layersPath,
-    pickLayers(layersConfig)
+  // TODO: Create a file system cache since this doesn't regularly change during generation
+  const pickedLayerItems = await Promise.all(
+    getLayerItemUris(layersPath, pickLayers(layersConfig))
   );
   const [imageUri, { jsonTemplateForItem, metaDataUri }] = await Promise.all([
     writeImage(i, pickedLayerItems, outputFormat, outputPath),
@@ -189,6 +405,9 @@ export const createGenerateArtCommand =
     logger.log("Reading layers config...");
     const layersConfig = await getLayersConfig(input.layersConfigPath);
 
+    logger.log("Creating output directory...");
+    await mkdirp(input.outputPath);
+
     const results = await Promise.all(
       [...Array(totalAmount).keys()].map((i) =>
         limit(async () => {
@@ -202,8 +421,7 @@ export const createGenerateArtCommand =
             );
             return result;
           } catch (e) {
-            logger.log(`Error: ${i + 1}.`);
-            logger.error(e);
+            logger.error(`Error: ${i + 1}.`);
             throw e;
           } finally {
             logger.log(`Completed: ${i + 1}.`);
@@ -211,15 +429,15 @@ export const createGenerateArtCommand =
         })
       )
     );
-    const attrsAndIds = results.map(({ jsonTemplateForItem }) => ({
+    const attributesMap = results.map(({ jsonTemplateForItem }) => ({
       id: jsonTemplateForItem.name,
       attributes: jsonTemplateForItem.attributes,
     }));
-    const repeatedAttrs = attrsAndIds
+    const repeatedAttributes = attributesMap
       .map((i) => i.attributes)
       .filter((val, i, iteratee) => _includes(iteratee, val, i + 1));
-    const repeated = attrsAndIds.filter((i) =>
-      repeatedAttrs.includes(i.attributes)
+    const repeated = attributesMap.filter(({ attributes }) =>
+      repeatedAttributes.includes(attributes)
     );
     logger.log(`Repeated items: ${JSON.stringify(repeated, null, 2)}`);
     logger.log(

@@ -1,6 +1,6 @@
 {
   "name": "harbor-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "bin/index.js",
   "license": "MIT",
   "type": "module",
@@ -10,8 +10,7 @@
   },
   "scripts": {
     "build": "yarn clean && tsc",
-    "clean": "rimraf bin",
-    "404-checker": "node ./bin/404-checker.js"
+    "clean": "rimraf bin"
   },
   "devDependencies": {
     "@types/async-retry": "^1.4.3",
