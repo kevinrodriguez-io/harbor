@@ -13,19 +13,7 @@
       "Sea Shell",
       "Wings"
     ],
-    "weights": [
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9
-    ],
+    "weights": [5, 5, 2, 6, 5, 0.5, 5, 60, 6, 5, 0.5],
     "priority": 3
   },
   "Background": {
@@ -47,24 +35,7 @@
       "Watering Hole",
       "Yellow"
     ],
-    "weights": [
-      6,
-      6,
-      6,
-      6,
-      6,
-      6,
-      6,
-      6,
-      6,
-      6,
-      6,
-      6,
-      6,
-      6,
-      6,
-      6
-    ],
+    "weights": [3, 9, 8.5, 1, 9, 8.5, 3, 6, 9, 9, 5, 9, 3, 5, 3, 9],
     "priority": 0
   },
   "Eyes": {
@@ -85,7 +56,7 @@
       "Pit Vipers",
       "Ray Eyes",
       "Red",
-      "Ski Googles",
+      "Ski Goggles",
       "Snake Eyes",
       "Solana Eyes",
       "Soundwave Goggles",
@@ -95,30 +66,7 @@
       "Zombie"
     ],
     "weights": [
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4
+      8, 3, 3, 5, 3, 3, 3, 8, 5, 2, 5, 4, 7, 4, 1, 8, 5, 3, 3, 1, 3, 4, 8, 1
     ],
     "priority": 6
   },
@@ -146,36 +94,12 @@
       "Sombrero",
       "Tiara",
       "Unicorn Horn",
-      "VPN Halo",
       "Viking Helmet",
+      "VPN Halo",
       "Wizard Hat"
     ],
     "weights": [
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4,
-      4
+      5, 5, 2, 4, 1, 4, 3, 4, 3, 4, 2, 3, 20, 5, 4, 3, 2, 4, 4, 3, 2, 3, 4, 2, 4
     ],
     "priority": 7
   },
@@ -193,36 +117,12 @@
       "Stitched",
       "Whistle"
     ],
-    "weights": [
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9
-    ],
+    "weights": [5, 5, 3, 5, 5, 5, 54, 5, 1, 7, 5],
     "priority": 4
   },
   "Nose": {
-    "items": [
-      "Butterfly",
-      "None",
-      "Ring",
-      "Septum",
-      "Stud"
-    ],
-    "weights": [
-      20,
-      20,
-      20,
-      20,
-      20
-    ],
+    "items": ["Butterfly", "None", "Ring", "Septum", "Stud"],
+    "weights": [2, 65, 12, 9, 12],
     "priority": 5
   },
   "Skin": {
@@ -234,24 +134,12 @@
       "Cyber",
       "Gold",
       "Ice",
+      "Iridescent",
       "Leopard",
       "Zebra",
-      "Zombie",
-      "iridescent"
+      "Zombie"
     ],
-    "weights": [
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9,
-      9
-    ],
+    "weights": [14, 7, 20, 14, 4, 2, 7, 5, 12, 11, 4],
     "priority": 1
   },
   "Top": {
@@ -285,33 +173,8 @@
       "Yellow Shirt"
     ],
     "weights": [
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3
+      2, 3, 3, 5, 5, 4, 3, 3, 2, 3, 2, 3, 5, 4, 2, 20, 4, 3, 3, 5, 0.5, 2, 1.5,
+      1.5, 3, 3.5, 4
     ],
     "priority": 2
   }
