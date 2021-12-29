@@ -138,7 +138,7 @@ export const uploadNFTToArweave = async (
       input.imageFormat
     );
     let uploadedVideoUri: string | null = null;
-    if (input.animatedFormat && input.animatedFormat !== 'none') {
+    if (input.animatedFormat && input.animatedFormat !== "none") {
       uploadedVideoUri = await uploadArweaveBinaryWithRetry(
         input,
         deps,
@@ -157,10 +157,18 @@ export const uploadNFTToArweave = async (
     );
     deps.logger.log(`${input.item} uploaded: ${uploadedJsonUri}`);
     if (createCache) {
+      const json = JSON.parse(
+        await readFile(`${input.optionsPath}/${input.item}.json`, `utf-8`)
+      );
       await appendFile(
         input.pseudoCachePath,
         `${JSON.stringify({
-          [input.item.toString()]: uploadedJsonUri,
+          [input.item.toString()]: {
+            link: uploadedJsonUri,
+            imageLink: uploadedImageUri,
+            name: json.name,
+            onChain: false,
+          },
         })},`
       );
     }

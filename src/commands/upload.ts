@@ -67,11 +67,15 @@ export const createUploaderCommand =
     await getOrCreatePseudoCacheFile(pseudoCachePath);
     const parsedPseudoCache: Record<string, PseudoCacheItem>[] =
       await getParsedPseudoCache(pseudoCachePath);
+    console.log({ parsedPseudoCache });
     for (let i = 0; i <= highestNumber; i++) {
       const shouldSkip = parsedPseudoCache.find(
-        (i, _, __, key = Object.entries(i)[0][0]) => key === i.toString()
-      ); // Found
-      if (shouldSkip) continue;
+        (item, _, __, key = Object.entries(item)[0][0]) => key === i.toString()
+      );
+      if (shouldSkip) {
+        logger.log(`Skipping ${i}`);
+        continue;
+      }
       promises.push(
         uploadNFTToArweaveWithLimit(
           {
@@ -113,14 +117,16 @@ export const createUploaderCommand =
       // Save json
       const pseudoCacheObj: Record<string, any> = {};
       for (const entry of json) {
-        const [key, value] = Object.entries(entry)[0];
-        const metaForThisFile = await readFile(
-          `${optionsPath}/${key}.json`,
-          `utf-8`
-        );
+        const [key, value] = Object.entries<{
+          link: string;
+          name: string;
+          imageLink: string;
+          onChain: boolean;
+        }>(entry)[0];
         pseudoCacheObj[key] = {
-          link: value,
-          name: JSON.parse(metaForThisFile).name,
+          link: value.link,
+          name: value.name,
+          imageLink: value.imageLink,
           onChain: false,
         };
       }

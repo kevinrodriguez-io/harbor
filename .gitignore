@@ -43,6 +43,8 @@ yarn.lock
 # Custom
 bin/**/*
 output/**/*
+cover/**/*
+output*.zip
 temp/**/*
 pseudo-cache*
 BAK/**/*
@@ -52,3 +54,4 @@ mainnet-*
 m-*
 layers/
 pseudo/
+workspace/**/*
