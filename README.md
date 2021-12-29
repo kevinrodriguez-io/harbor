@@ -105,7 +105,7 @@ $ harbor fix_missing_post_mint \
 
 Feel free to contact me.
 
-Some day, someone will appreciate the work done on this project and will send some Sol at:
+You can donate and make my day at:
 FeikG7Kui7zw8srzShhrPv2TJgwAn61GU7m8xmaK9GnW
 
 - **Twitter:** https://twitter.com/MisterKevin_JS
