@@ -11,7 +11,7 @@ import { padNumber } from "../lib/tools/string.js";
 import mkdirp from "mkdirp";
 
 const cpuCount = os.cpus().length;
-const limit = pLimit(cpuCount); // pLimit(1); // pLimit(cpuCount);
+const limit = pLimit(cpuCount);
 
 const PAINTER_SCRIPT = "./bin/src/scripts/painter.js";
 
@@ -36,7 +36,6 @@ export type GenerateArtInput = {
   amount: string;
   outputFormat: "png" | "jpeg";
 };
-
 const getJsonTemplate = async (jsonTemplatePath: string) =>
   JSON.parse(await fs.readFile(jsonTemplatePath, "utf-8")) as NFTMetaData;
 

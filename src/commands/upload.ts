@@ -30,7 +30,7 @@ const getParsedPseudoCache = async (pseudoCachePath: string) => {
 };
 
 export type AnimationInput = "mp4" | "gif" | "none";
-export type ImageInput = "jpg" | "jpeg" | "png" | "gif";
+export type ImageInput = "jpg" | "jpeg" | "png" | "gif" | "webp";
 
 type UploaderOptions = {
   key: string;

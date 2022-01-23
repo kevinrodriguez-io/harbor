@@ -27,7 +27,7 @@ type UploadMetadataToArweaveInput = UploadToArweaveInput & {
   uploadedVideoUri: string | null;
 };
 
-type AssetFormat = "png" | "jpeg" | "jpg" | "gif" | "mp4";
+type AssetFormat = "png" | "jpeg" | "jpg" | "gif" | "webp" | "mp4";
 
 const getContentTypeFromInputFormat = (type: AssetFormat) => {
   switch (type) {
@@ -37,6 +37,8 @@ const getContentTypeFromInputFormat = (type: AssetFormat) => {
       return "image/png";
     case "gif":
       return "image/gif";
+    case "webp":
+      return "image/webp";
     case "jpg":
     case "jpeg":
       return "image/jpeg";
@@ -98,6 +100,21 @@ export const uploadArweaveMetadata = async (
     );
     file.image = uploadedImageUri;
     file.animation_url = uploadedVideoUri;
+    file.properties.files = [];
+    file.properties.files.push({
+      url: uploadedImageUri,
+      type: getContentTypeFromInputFormat(
+        uploadedImageUri.split("ext=")[1] as AssetFormat
+      ),
+    });
+    if (uploadedVideoUri) {
+      file.properties.files.push({
+        url: uploadedVideoUri,
+        type: getContentTypeFromInputFormat(
+          uploadedVideoUri.split("ext=")[1] as AssetFormat
+        ),
+      });
+    }
     const uploadFileTransaction = await arweave.createTransaction(
       { data: JSON.stringify(file) },
       jwk
