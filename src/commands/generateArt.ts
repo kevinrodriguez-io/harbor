@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import { fork } from "child_process";
+import mkdirp from "mkdirp";
 import { Chance } from "chance";
 import pLimit from "p-limit";
 import os from "os";
@@ -7,26 +7,20 @@ import _includes from "lodash.includes";
 
 import { NFTMetaData } from "../lib/types/NFTMetaData";
 import { Logger } from "../lib/types/Logger";
-import { padNumber } from "../lib/tools/string.js";
-import mkdirp from "mkdirp";
+import { LayerConfigItem, PickedLayer } from "../lib/types/GenerateArt";
+
+import {
+  getJsonTemplate,
+  getLayersConfig,
+  getLayerItemFSUris,
+} from "../lib/tools/files.js";
+import { writeImage } from "../lib/tools/images.js";
+import { writeMetadataJson } from "../lib/tools/json.js";
 
 const cpuCount = os.cpus().length;
 const limit = pLimit(cpuCount);
 
 const PAINTER_SCRIPT = "./bin/src/scripts/painter.js";
-
-type LayerConfigItem = {
-  items: string[];
-  weights: number[];
-  priority: number;
-};
-
-type LayerItem = {
-  layerName: string;
-  item: string;
-  uri: string;
-  priority: number;
-};
 
 export type GenerateArtInput = {
   jsonTemplatePath: string;
@@ -34,20 +28,7 @@ export type GenerateArtInput = {
   layersPath: string;
   outputPath: string;
   amount: string;
-  outputFormat: "png" | "jpeg";
-};
-const getJsonTemplate = async (jsonTemplatePath: string) =>
-  JSON.parse(await fs.readFile(jsonTemplatePath, "utf-8")) as NFTMetaData;
-
-const getLayersConfig = async (layersConfigPath: string) =>
-  JSON.parse(await fs.readFile(layersConfigPath, "utf-8")) as Record<
-    string,
-    LayerConfigItem
-  >;
-
-type PickedLayer = {
-  priority: number;
-  pickedLayerItem: string;
+  outputFormat: "png" | "jpeg" | "webp";
 };
 
 const reRollIfException = (
@@ -369,80 +350,6 @@ const pickLayers = (
   return items;
 };
 
-const getLayerItemUri = async (
-  layersPath: string,
-  { layerName, item }: { layerName: string; item: string }
-) => {
-  const layerPath = `${layersPath}/${layerName}`;
-  const files = await fs.readdir(layerPath);
-  const file = files.find((file) => file.includes(item));
-  if (!file) {
-    throw new Error(`${layerName}/${item} not found`);
-  }
-  return `${layerPath}/${file}`;
-};
-
-const getLayerItemUris = (
-  layersPath: string,
-  pickedItems: Record<string, PickedLayer>
-) =>
-  Object.entries(pickedItems).map<Promise<LayerItem>>(
-    async ([layerName, { pickedLayerItem: item, priority }]) => ({
-      layerName,
-      item,
-      priority,
-      uri: await getLayerItemUri(layersPath, {
-        layerName,
-        item,
-      }),
-    })
-  );
-
-const writeImage = async (
-  i: number,
-  items: LayerItem[],
-  outputFormat: string,
-  outputPath: string
-) =>
-  new Promise<string>(async (resolve, reject) => {
-    fork(PAINTER_SCRIPT, [
-      i.toString(),
-      outputFormat,
-      outputPath,
-      ...items.sort((a, b) => a.priority - b.priority).map(({ uri }) => uri),
-    ])
-      .on("exit", () => resolve(`${outputPath}/${i}.${outputFormat}`))
-      .on("error", () => reject());
-  });
-
-const cloneTemplate = (jsonTemplate: NFTMetaData) =>
-  JSON.parse(JSON.stringify(jsonTemplate)) as NFTMetaData;
-
-const writeMetadataJson = async (
-  i: number,
-  jsonTemplate: NFTMetaData,
-  pickedLayerItems: LayerItem[],
-  outputFormat: string,
-  outputPath: string
-) => {
-  const jsonTemplateForItem = cloneTemplate(jsonTemplate);
-  jsonTemplateForItem.name = `${jsonTemplateForItem.name} #${padNumber(i + 1)}`;
-  jsonTemplateForItem.attributes = pickedLayerItems.map(
-    ({ layerName, item }) => ({
-      trait_type: layerName,
-      value: item,
-    })
-  );
-  jsonTemplateForItem.image = `${i}.${outputFormat}`;
-  const metaDataUri = `${outputPath}/${i}.json`;
-  await fs.writeFile(
-    metaDataUri,
-    JSON.stringify(jsonTemplateForItem, null, 2),
-    "utf-8"
-  );
-  return { metaDataUri, jsonTemplateForItem };
-};
-
 const generateNFT = async (
   i: number,
   { layersPath, outputFormat, outputPath }: GenerateArtInput,
@@ -452,11 +359,11 @@ const generateNFT = async (
 ) => {
   // TODO: Create a file system cache since this doesn't regularly change during generation
   const pickedLayerItems = await Promise.all(
-    getLayerItemUris(layersPath, pickLayers(layersConfig))
+    getLayerItemFSUris(layersPath, pickLayers(layersConfig))
   );
   logger?.log(`[${i + 1}] - ${JSON.stringify(pickedLayerItems)}`);
   const [imageUri, { jsonTemplateForItem, metaDataUri }] = await Promise.all([
-    writeImage(i, pickedLayerItems, outputFormat, outputPath),
+    writeImage(i, pickedLayerItems, outputFormat, outputPath, PAINTER_SCRIPT),
     writeMetadataJson(
       i,
       jsonTemplate,
@@ -477,14 +384,12 @@ export const createGenerateArtCommand =
     const totalAmount = parseInt(input.amount, 10);
     logger.log(`Generating ${totalAmount} NFTs...`);
 
-    logger.log("Reading template...");
-    const jsonTemplate = await getJsonTemplate(input.jsonTemplatePath);
-
-    logger.log("Reading layers config...");
-    const layersConfig = await getLayersConfig(input.layersConfigPath);
-
-    logger.log("Creating output directory...");
-    await mkdirp(input.outputPath);
+    logger.log("Reading files and creating output directory...");
+    const [jsonTemplate, layersConfig] = await Promise.all([
+      getJsonTemplate(input.jsonTemplatePath),
+      getLayersConfig(input.layersConfigPath),
+      mkdirp(input.outputPath),
+    ]);
 
     const results = await Promise.all(
       [...Array(totalAmount).keys()].map((i) =>
@@ -519,10 +424,6 @@ export const createGenerateArtCommand =
       repeatedAttributes.includes(attributes)
     );
     logger.log(`Repeated items: ${JSON.stringify(repeated, null, 2)}`);
-    logger.log(
-      `If there are too many repeated Items try adding more features or manually edit them to add some really unique items.`
-    );
-    // Save all the generated NFTs to the output directory
     logger.log("Saving all.json...");
     await fs.writeFile(
       `${input.outputPath}/all.json`,

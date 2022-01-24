@@ -129,7 +129,7 @@ program
   .requiredOption("-p, --layers-path <layersPath>", "Path of the layers folder")
   .requiredOption("-o, --output-path <outputPath>", "Path to write files into")
   .requiredOption("-a, --amount <amount>", "Amount of entries to generate")
-  .requiredOption("-f, --output-format <outputFormat>", "Output format")
+  .requiredOption("-f, --output-format <outputFormat>", "Output format (jpeg, png, webp)")
   .action(createGenerateArtCommand(logger));
 
 program.parse(process.argv);
