@@ -14,6 +14,7 @@ import { createDonateCommand } from "./src/commands/donate.js";
 import { createDropToHoldersCommand } from "./src/commands/dropToHolders.js";
 import { createBuildLayersJSONCommand } from "./src/commands/buildLayersJSON.js";
 import { createGenerateArtCommand } from "./src/commands/generateArt.js";
+import { createBuildSpecificArtCommand } from "./src/commands/buildSpecificArt.js";
 
 const __dirname = path.resolve();
 
@@ -129,7 +130,29 @@ program
   .requiredOption("-p, --layers-path <layersPath>", "Path of the layers folder")
   .requiredOption("-o, --output-path <outputPath>", "Path to write files into")
   .requiredOption("-a, --amount <amount>", "Amount of entries to generate")
-  .requiredOption("-f, --output-format <outputFormat>", "Output format (jpeg, png, webp)")
+  .requiredOption(
+    "-f, --output-format <outputFormat>",
+    "Output format (jpeg, png, webp)"
+  )
   .action(createGenerateArtCommand(logger));
+
+program
+  .command("create_specific_art")
+  .requiredOption(
+    "-j, --json-template-path <jsonTemplatePath>",
+    "JSON Template Input Path"
+  )
+  .requiredOption(
+    "-l, --picked-layers-path <pickedLayersPath>",
+    "Picked layers json Path"
+  )
+  .requiredOption("-p, --layers-path <layersPath>", "Path of the layers folder")
+  .requiredOption("-o, --output-path <outputPath>", "Path to write files into")
+  .requiredOption("-i, --item-number <itemNumber>", "Element number")
+  .requiredOption(
+    "-f, --output-format <outputFormat>",
+    "Output format (jpeg, png, webp)"
+  )
+  .action(createBuildSpecificArtCommand(logger));
 
 program.parse(process.argv);

@@ -1,6 +1,7 @@
 import { LayerItem } from "../types/GenerateArt";
 import { NFTMetaData } from "../types/NFTMetaData";
 import { padNumber } from "./string.js";
+import fs from "fs/promises";
 
 export const clone = <T>(obj: T): T => JSON.parse(JSON.stringify(obj));
 

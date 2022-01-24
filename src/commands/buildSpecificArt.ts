@@ -21,7 +21,7 @@ type BuildSpecificArtInput = {
 
 const PAINTER_SCRIPT = "./bin/src/scripts/painter.js";
 
-export const buildSpecificArt =
+export const createBuildSpecificArtCommand =
   (logger: Logger) =>
   async ({
     jsonTemplatePath,
