@@ -1,4 +1,4 @@
-import { appendFile, readFile, writeFile } from "fs/promises";
+import { appendFile, readdir, readFile, writeFile } from "fs/promises";
 import pLimit from "p-limit";
 
 import { createArweave } from "../lib/arweave/createArweave.js";
@@ -39,6 +39,7 @@ type UploaderOptions = {
   threads: string;
   animatedFormat: AnimationInput;
   imageFormat: ImageInput;
+  sequential: boolean;
 };
 
 export const createUploaderCommand =
@@ -48,6 +49,7 @@ export const createUploaderCommand =
     imageFormat = "png",
     threads = "10",
     retries: unParsedRetries = "5",
+    sequential = false,
     ...options
   }: UploaderOptions) => {
     const arweave = createArweave();
@@ -67,28 +69,58 @@ export const createUploaderCommand =
     await getOrCreatePseudoCacheFile(pseudoCachePath);
     const parsedPseudoCache: Record<string, PseudoCacheItem>[] =
       await getParsedPseudoCache(pseudoCachePath);
-    console.log({ parsedPseudoCache });
-    for (let i = 0; i <= highestNumber; i++) {
-      const shouldSkip = parsedPseudoCache.find(
-        (item, _, __, key = Object.entries(item)[0][0]) => key === i.toString()
-      );
-      if (shouldSkip) {
-        logger.log(`Skipping ${i}`);
-        continue;
+    console.log({ parsedPseudoCache, sequential });
+    if (sequential) {
+      for (let i = 0; i <= highestNumber; i++) {
+        const shouldSkip = parsedPseudoCache.find(
+          (item, _, __, key = Object.entries(item)[0][0]) =>
+            key === i.toString()
+        );
+        if (shouldSkip) {
+          logger.log(`Skipping ${i}`);
+          continue;
+        }
+        promises.push(
+          uploadNFTToArweaveWithLimit(
+            {
+              item: i,
+              optionsPath,
+              pseudoCachePath,
+              animatedFormat,
+              imageFormat,
+            },
+            { logger, jwk, arweave, limit },
+            retries
+          )
+        );
       }
-      promises.push(
-        uploadNFTToArweaveWithLimit(
-          {
-            item: i,
-            optionsPath,
-            pseudoCachePath,
-            animatedFormat,
-            imageFormat,
-          },
-          { logger, jwk, arweave, limit },
-          retries
-        )
-      );
+    } else {
+      const indices = (await readdir(optionsPath))
+        .filter((i) => i.includes(".json"))
+        .map((i) => parseInt(i.replace(".json", "")));
+      for (const i of indices) {
+        const shouldSkip = parsedPseudoCache.find(
+          (item, _, __, key = Object.entries(item)[0][0]) =>
+            key === i.toString()
+        );
+        if (shouldSkip) {
+          logger.log(`Skipping ${i}`);
+          continue;
+        }
+        promises.push(
+          uploadNFTToArweaveWithLimit(
+            {
+              item: i,
+              optionsPath,
+              pseudoCachePath,
+              animatedFormat,
+              imageFormat,
+            },
+            { logger, jwk, arweave, limit },
+            retries
+          )
+        );
+      }
     }
     const allPromises = await Promise.allSettled(promises);
     const failed = allPromises.filter(({ status }) => status === "rejected");

@@ -14,7 +14,7 @@ import { createDonateCommand } from "./src/commands/donate.js";
 import { createDropToHoldersCommand } from "./src/commands/dropToHolders.js";
 import { createBuildLayersJSONCommand } from "./src/commands/buildLayersJSON.js";
 import { createGenerateArtCommand } from "./src/commands/generateArt.js";
-import { createBuildSpecificArtCommand } from "./src/commands/buildSpecificArt.js";
+import { createBuildSpecificArtCommand } from "./src/commands/createSpecificArt.js";
 
 const __dirname = path.resolve();
 
@@ -59,6 +59,7 @@ program
     "If animated, uploads an animation for each file. (Defaults to none)",
     "none" as AnimationInput
   )
+  .option("-s, --sequential <sequential>", "Sequential")
   .option("-r, --retries <retries>", "Retries", "5")
   .option("-t, --threads <threads>", "Threads to use (Parallelization)", "10")
   .action(createUploaderCommand(logger, pseudoCachePath));

@@ -74,6 +74,7 @@ export const uploadArweaveBinary = async (
     logger.log(`${item}.${type} uploaded`);
     const uri = `https://arweave.net/${uploadFileTransaction.id}?ext=${type}`;
     logger.log(`${item}.${type} checking url presence at ${uri}.`);
+    await new Promise((resolve) => setTimeout(resolve, 10000));
     await axios.head(uri);
     logger.log(`${item}.${type} url presence at ${uri} is fine.`);
     return uri;

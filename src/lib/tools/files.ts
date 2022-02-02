@@ -2,23 +2,23 @@ import fs from "fs/promises";
 import { LayerConfigItem, LayerItem, PickedLayer } from "../types/GenerateArt";
 import { NFTMetaData } from "../types/NFTMetaData";
 
+const cleanUpExtensions = (str: string) =>
+  str
+    .replace(".json", "")
+    .replace(".png", "")
+    .replace(".jpg", "")
+    .replace(".jpeg", "")
+    .replace(".webp", "")
+    .replace(".gif", "")
+    .replace(".mp4", "");
+
 export const getHighestFileNumber = async (path: string) => {
   const files = await fs.readdir(path);
   const [highestNumber] = [
     ...new Set(
       files
         .filter((i) => i !== ".DS_Store")
-        .map((f) =>
-          parseInt(
-            f
-              .replace(".json", "")
-              .replace(".png", "")
-              .replace(".jpg", "")
-              .replace(".jpeg", "")
-              .replace(".gif", "")
-              .replace(".mp4", "")
-          )
-        )
+        .map((f) => parseInt(cleanUpExtensions(f)))
     ),
   ].sort((a, b) => b - a);
   return highestNumber;
@@ -42,7 +42,7 @@ export const getLayerItemFSUri = async (
 ) => {
   const layerPath = `${layersPath}/${layerName}`;
   const files = await fs.readdir(layerPath);
-  const file = files.find((file) => file.includes(item));
+  const file = files.find((file) => cleanUpExtensions(file) === item);
   if (!file) {
     throw new Error(`${layerName}/${item} not found`);
   }

@@ -45,15 +45,21 @@ export const createBuildSpecificArtCommand =
     logger.log(
       `Writing image+metadata... ${outputPath}/${itemNumber}.${outputFormat}+json`
     );
-    await Promise.all([
-      writeImage(itemNumber, uris, outputFormat, outputPath, PAINTER_SCRIPT),
-      writeMetadataJson(
-        itemNumber,
-        jsonTemplate,
-        uris,
-        outputFormat,
-        outputPath
-      ),
-    ]);
+    try {
+      await Promise.all([
+        writeImage(itemNumber, uris, outputFormat, outputPath, PAINTER_SCRIPT),
+        writeMetadataJson(
+          itemNumber,
+          jsonTemplate,
+          uris,
+          outputFormat,
+          outputPath,
+          true
+        ),
+      ]);
+      logger.log("Done: " + itemNumber);
+    } catch (error) {
+      logger.error("Failed: " + itemNumber);
+    }
     logger.log("Done");
   };

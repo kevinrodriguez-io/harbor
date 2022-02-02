@@ -10,10 +10,13 @@ export const writeMetadataJson = async (
   jsonTemplate: NFTMetaData,
   pickedLayerItems: LayerItem[],
   outputFormat: string,
-  outputPath: string
+  outputPath: string,
+  disableIncrementInName: boolean = false
 ) => {
   const jsonTemplateForItem = clone(jsonTemplate);
-  jsonTemplateForItem.name = `${jsonTemplateForItem.name} #${padNumber(i + 1)}`;
+  jsonTemplateForItem.name = `${jsonTemplateForItem.name} #${padNumber(
+    disableIncrementInName ? i : i + 1
+  )}`;
   jsonTemplateForItem.attributes = pickedLayerItems.map(
     ({ layerName, item }) => ({
       trait_type: layerName,
