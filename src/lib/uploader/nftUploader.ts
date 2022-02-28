@@ -1,11 +1,12 @@
 import Arweave from "arweave";
 import axios from "axios";
-import { appendFile, readFile } from "fs/promises";
+import { appendFile, readFile, stat } from "fs/promises";
 import retry from "async-retry";
 import { JWKInterface } from "../types/JWK";
 import { Logger } from "../types/Logger";
 import { LimitFunction } from "p-limit";
 import { AnimationInput, ImageInput } from "../../commands/upload";
+import { PathLike } from "fs";
 
 type UploadNFTToArweaveDeps = {
   logger: Logger;
@@ -28,6 +29,9 @@ type UploadMetadataToArweaveInput = UploadToArweaveInput & {
 };
 
 type AssetFormat = "png" | "jpeg" | "jpg" | "gif" | "webp" | "mp4";
+
+const fileExists = async (path: PathLike) =>
+  !!(await stat(path).catch((_) => false));
 
 const getContentTypeFromInputFormat = (type: AssetFormat) => {
   switch (type) {
@@ -78,9 +82,8 @@ export const uploadArweaveBinary = async (
     await axios.head(uri);
     logger.log(`${item}.${type} url presence at ${uri} is fine.`);
     return uri;
-  } catch (error) {
-    logger.error(error);
-    logger.log(`Retry: ${item}.${type}`);
+  } catch (error: any) {
+    logger.log(`Errored on: ${item}.${type}, message: ${error?.message ?? ""}`);
     throw error;
   }
 };
@@ -157,12 +160,21 @@ export const uploadNFTToArweave = async (
     );
     let uploadedVideoUri: string | null = null;
     if (input.animatedFormat && input.animatedFormat !== "none") {
-      uploadedVideoUri = await uploadArweaveBinaryWithRetry(
-        input,
-        deps,
-        retries,
-        input.animatedFormat
+      const hasAnimatedFile = await fileExists(
+        `${input.optionsPath}/${input.item}.${input.animatedFormat}`
       );
+      if (hasAnimatedFile) {
+        uploadedVideoUri = await uploadArweaveBinaryWithRetry(
+          input,
+          deps,
+          retries,
+          input.animatedFormat
+        );
+      } else {
+        deps.logger.log(
+          `${input.item}.${input.animatedFormat} does not exist, skipping upload for animated file`
+        );
+      }
     }
     const uploadedJsonUri = await uploadArweaveMetadataWithRetry(
       {

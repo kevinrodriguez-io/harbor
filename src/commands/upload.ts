@@ -40,6 +40,7 @@ type UploaderOptions = {
   animatedFormat: AnimationInput;
   imageFormat: ImageInput;
   sequential: boolean;
+  someAnimated: boolean;
 };
 
 export const createUploaderCommand =
