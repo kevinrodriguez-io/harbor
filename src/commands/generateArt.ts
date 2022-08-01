@@ -71,282 +71,282 @@ const pickLayers = (
   );
 
   // TODO: Move this into a re-ordering worker plugin.
-  //#region JungleCats Lionesses
+  // //#region JungleCats Lionesses
 
-  if (items["Skin"].pickedLayerItem === "Zombie") {
-    reRollIfException(
-      "Eyes",
-      [
-        "Blue",
-        "Cat Eyes",
-        "Dragon Eyes",
-        "Glowing Blue",
-        "Glowing White",
-        "Glowing Yellow",
-        "Green",
-        "Orange",
-        "Red",
-        "Snake Eyes",
-        "Solana Eyes",
-        "Yellow",
-      ],
-      {
-        items,
-        config,
-      }
-    );
-  }
+  // if (items["Skin"].pickedLayerItem === "Zombie") {
+  //   reRollIfException(
+  //     "Eyes",
+  //     [
+  //       "Blue",
+  //       "Cat Eyes",
+  //       "Dragon Eyes",
+  //       "Glowing Blue",
+  //       "Glowing White",
+  //       "Glowing Yellow",
+  //       "Green",
+  //       "Orange",
+  //       "Red",
+  //       "Snake Eyes",
+  //       "Solana Eyes",
+  //       "Yellow",
+  //     ],
+  //     {
+  //       items,
+  //       config,
+  //     }
+  //   );
+  // }
 
-  if (items["Head"].pickedLayerItem === "Cleopatra") {
-    reRollIfException(
-      "Eyes",
-      [
-        "Eye Patch",
-        "Heart Glasses",
-        "Nerd Glasses",
-        "Opera Mask",
-        "Pit Vipers",
-        "Ski Goggles",
-        "Soundwave Goggles",
-        "Steam Punk",
-        "VR",
-        "Laser Eyes",
-        "Ray Eyes",
-      ],
-      { items, config }
-    );
-    reRollIfException("Accessories", ["Earrings"], { items, config });
-    reRollIfException(
-      "Mouth",
-      ["Microphone", "Scuba", "Cigar", "Flower", "Grapes", "Pipe"],
-      { items, config }
-    );
-  } else if (items["Head"].pickedLayerItem === "Devil Horns") {
-    reRollIfException(
-      "Eyes",
-      [
-        "Eye Patch",
-        "Nerd Glasses",
-        "Opera Mask",
-        "Pit Vipers",
-        "Heart Glasses",
-        "Steam Punk",
-        "VR",
-      ],
-      { items, config }
-    );
-  } else if (items["Head"].pickedLayerItem === "Unicorn Horn") {
-    reRollIfException(
-      "Eyes",
-      [
-        "Eye Patch",
-        "Heart Glasses",
-        "Nerd Glasses",
-        "Opera Mask",
-        "Pit Vipers",
-        "Ski Goggles",
-        "Soundwave Goggles",
-        "Steam Punk",
-        "VR",
-      ],
-      { items, config }
-    );
-  } else if (items["Head"].pickedLayerItem === "Viking Helmet") {
-    reRollIfException(
-      "Eyes",
-      [
-        "Eye Patch",
-        "Heart Glasses",
-        "Pit Vipers",
-        "Ski Goggles",
-        "Soundwave Goggles",
-        "Steam Punk",
-        "VR",
-      ],
-      { items, config }
-    );
-  } else if (items["Head"].pickedLayerItem === "Brain") {
-    reRollIfException("Eyes", ["Pit Vipers", "Opera Mask"], { items, config });
-  } else if (items["Head"].pickedLayerItem === "Chef hat") {
-    reRollIfException("Eyes", ["Opera Mask"], { items, config });
-  } else if (items["Head"].pickedLayerItem === "Cowboy hat") {
-    reRollIfException("Eyes", ["Soundwave Goggles", "Ski Goggles"], {
-      items,
-      config,
-    });
-  } else if (
-    items["Head"].pickedLayerItem === "Green Mushroom Hat" ||
-    items["Head"].pickedLayerItem === "Purple Mushroom Hat"
-  ) {
-    reRollIfException("Eyes", ["Ski Goggles", "Soundwave Goggles", "VR"], {
-      items,
-      config,
-    });
-  } else if (
-    items["Head"].pickedLayerItem === "Pink Visor" ||
-    items["Head"].pickedLayerItem === "Blue Visor"
-  ) {
-    reRollIfException("Eyes", ["Soundwave Goggles", "Ski Goggles"], {
-      items,
-      config,
-    });
-  } else if (items["Head"].pickedLayerItem === "Pirate Hat") {
-    reRollIfException("Eyes", ["VR", "Pit Vipers", "Opera Mask"], {
-      items,
-      config,
-    });
-  } else if (items["Head"].pickedLayerItem === "Santa Hat") {
-    reRollIfException(
-      "Eyes",
-      ["Soundwave Goggles", "Ski Goggles", "VR", "Steam Punk"],
-      {
-        items,
-        config,
-      }
-    );
-  } else if (items["Head"].pickedLayerItem === "Tiara") {
-    reRollIfException("Eyes", ["VR", "Steam Punk", "Opera Mask"], {
-      items,
-      config,
-    });
-  } else if (items["Head"].pickedLayerItem === "Wizard Hat") {
-    reRollIfException("Eyes", ["Soundwave Goggles", "Ski Goggles"], {
-      items,
-      config,
-    });
-  }
+  // if (items["Head"].pickedLayerItem === "Cleopatra") {
+  //   reRollIfException(
+  //     "Eyes",
+  //     [
+  //       "Eye Patch",
+  //       "Heart Glasses",
+  //       "Nerd Glasses",
+  //       "Opera Mask",
+  //       "Pit Vipers",
+  //       "Ski Goggles",
+  //       "Soundwave Goggles",
+  //       "Steam Punk",
+  //       "VR",
+  //       "Laser Eyes",
+  //       "Ray Eyes",
+  //     ],
+  //     { items, config }
+  //   );
+  //   reRollIfException("Accessories", ["Earrings"], { items, config });
+  //   reRollIfException(
+  //     "Mouth",
+  //     ["Microphone", "Scuba", "Cigar", "Flower", "Grapes", "Pipe"],
+  //     { items, config }
+  //   );
+  // } else if (items["Head"].pickedLayerItem === "Devil Horns") {
+  //   reRollIfException(
+  //     "Eyes",
+  //     [
+  //       "Eye Patch",
+  //       "Nerd Glasses",
+  //       "Opera Mask",
+  //       "Pit Vipers",
+  //       "Heart Glasses",
+  //       "Steam Punk",
+  //       "VR",
+  //     ],
+  //     { items, config }
+  //   );
+  // } else if (items["Head"].pickedLayerItem === "Unicorn Horn") {
+  //   reRollIfException(
+  //     "Eyes",
+  //     [
+  //       "Eye Patch",
+  //       "Heart Glasses",
+  //       "Nerd Glasses",
+  //       "Opera Mask",
+  //       "Pit Vipers",
+  //       "Ski Goggles",
+  //       "Soundwave Goggles",
+  //       "Steam Punk",
+  //       "VR",
+  //     ],
+  //     { items, config }
+  //   );
+  // } else if (items["Head"].pickedLayerItem === "Viking Helmet") {
+  //   reRollIfException(
+  //     "Eyes",
+  //     [
+  //       "Eye Patch",
+  //       "Heart Glasses",
+  //       "Pit Vipers",
+  //       "Ski Goggles",
+  //       "Soundwave Goggles",
+  //       "Steam Punk",
+  //       "VR",
+  //     ],
+  //     { items, config }
+  //   );
+  // } else if (items["Head"].pickedLayerItem === "Brain") {
+  //   reRollIfException("Eyes", ["Pit Vipers", "Opera Mask"], { items, config });
+  // } else if (items["Head"].pickedLayerItem === "Chef hat") {
+  //   reRollIfException("Eyes", ["Opera Mask"], { items, config });
+  // } else if (items["Head"].pickedLayerItem === "Cowboy hat") {
+  //   reRollIfException("Eyes", ["Soundwave Goggles", "Ski Goggles"], {
+  //     items,
+  //     config,
+  //   });
+  // } else if (
+  //   items["Head"].pickedLayerItem === "Green Mushroom Hat" ||
+  //   items["Head"].pickedLayerItem === "Purple Mushroom Hat"
+  // ) {
+  //   reRollIfException("Eyes", ["Ski Goggles", "Soundwave Goggles", "VR"], {
+  //     items,
+  //     config,
+  //   });
+  // } else if (
+  //   items["Head"].pickedLayerItem === "Pink Visor" ||
+  //   items["Head"].pickedLayerItem === "Blue Visor"
+  // ) {
+  //   reRollIfException("Eyes", ["Soundwave Goggles", "Ski Goggles"], {
+  //     items,
+  //     config,
+  //   });
+  // } else if (items["Head"].pickedLayerItem === "Pirate Hat") {
+  //   reRollIfException("Eyes", ["VR", "Pit Vipers", "Opera Mask"], {
+  //     items,
+  //     config,
+  //   });
+  // } else if (items["Head"].pickedLayerItem === "Santa Hat") {
+  //   reRollIfException(
+  //     "Eyes",
+  //     ["Soundwave Goggles", "Ski Goggles", "VR", "Steam Punk"],
+  //     {
+  //       items,
+  //       config,
+  //     }
+  //   );
+  // } else if (items["Head"].pickedLayerItem === "Tiara") {
+  //   reRollIfException("Eyes", ["VR", "Steam Punk", "Opera Mask"], {
+  //     items,
+  //     config,
+  //   });
+  // } else if (items["Head"].pickedLayerItem === "Wizard Hat") {
+  //   reRollIfException("Eyes", ["Soundwave Goggles", "Ski Goggles"], {
+  //     items,
+  //     config,
+  //   });
+  // }
 
-  if (items["Eyes"].pickedLayerItem === "Opera Mask") {
-    reRollIfException("Mouth", ["Gas Mask", "Microphone", "Scuba"], {
-      items,
-      config,
-    });
-    reRollIfException("Nose", ["Stud", "Ring", "Septum", "Butterfly"], {
-      items,
-      config,
-    });
-  } else if (
-    items["Eyes"].pickedLayerItem === "Laser Eyes" ||
-    items["Eyes"].pickedLayerItem === "Ray Eyes"
-  ) {
-    reRollIfException("Nose", ["Butterfly"], {
-      items,
-      config,
-    });
-  }
+  // if (items["Eyes"].pickedLayerItem === "Opera Mask") {
+  //   reRollIfException("Mouth", ["Gas Mask", "Microphone", "Scuba"], {
+  //     items,
+  //     config,
+  //   });
+  //   reRollIfException("Nose", ["Stud", "Ring", "Septum", "Butterfly"], {
+  //     items,
+  //     config,
+  //   });
+  // } else if (
+  //   items["Eyes"].pickedLayerItem === "Laser Eyes" ||
+  //   items["Eyes"].pickedLayerItem === "Ray Eyes"
+  // ) {
+  //   reRollIfException("Nose", ["Butterfly"], {
+  //     items,
+  //     config,
+  //   });
+  // }
 
-  if (items["Mouth"].pickedLayerItem === "Gas Mask") {
-    reRollIfException("Nose", ["Stud", "Ring", "Septum"], {
-      items,
-      config,
-    });
-  } else if (items["Mouth"].pickedLayerItem === "Scuba") {
-    items["Nose"].pickedLayerItem = "None";
-    reRollIfException("Accessories", ["Butterfly Wings"], {
-      items,
-      config,
-    });
-  } else if (items["Mouth"].pickedLayerItem === "Microphone") {
-    reRollIfException("Accessories", ["Bone Necklace", "Sea Shell"], {
-      items,
-      config,
-    });
-  }
+  // if (items["Mouth"].pickedLayerItem === "Gas Mask") {
+  //   reRollIfException("Nose", ["Stud", "Ring", "Septum"], {
+  //     items,
+  //     config,
+  //   });
+  // } else if (items["Mouth"].pickedLayerItem === "Scuba") {
+  //   items["Nose"].pickedLayerItem = "None";
+  //   reRollIfException("Accessories", ["Butterfly Wings"], {
+  //     items,
+  //     config,
+  //   });
+  // } else if (items["Mouth"].pickedLayerItem === "Microphone") {
+  //   reRollIfException("Accessories", ["Bone Necklace", "Sea Shell"], {
+  //     items,
+  //     config,
+  //   });
+  // }
 
-  if (items["Accessories"].pickedLayerItem === "Egyptian Necklace") {
-    reRollIfException(
-      "Top",
-      [
-        "Yellow Shirt",
-        "White Tracksuit",
-        "Red Poncho",
-        "Purple Shirt",
-        "Purple Puffer Jacket",
-        "Puffer Vest",
-        "Pink Tracksuit",
-        "Green Tracksuit",
-        "Green Shirt",
-        "Green Puffer Jacket",
-        "Green Poncho",
-        "Dress",
-        "Cream Puffer Jacket",
-        "Cargo Vest",
-        "Blue Tracksuit",
-        "Blue Shirt",
-        "Black Puffer Jacket",
-        "Black Shirt",
-      ],
-      {
-        items,
-        config,
-      }
-    );
-  }
+  // if (items["Accessories"].pickedLayerItem === "Egyptian Necklace") {
+  //   reRollIfException(
+  //     "Top",
+  //     [
+  //       "Yellow Shirt",
+  //       "White Tracksuit",
+  //       "Red Poncho",
+  //       "Purple Shirt",
+  //       "Purple Puffer Jacket",
+  //       "Puffer Vest",
+  //       "Pink Tracksuit",
+  //       "Green Tracksuit",
+  //       "Green Shirt",
+  //       "Green Puffer Jacket",
+  //       "Green Poncho",
+  //       "Dress",
+  //       "Cream Puffer Jacket",
+  //       "Cargo Vest",
+  //       "Blue Tracksuit",
+  //       "Blue Shirt",
+  //       "Black Puffer Jacket",
+  //       "Black Shirt",
+  //     ],
+  //     {
+  //       items,
+  //       config,
+  //     }
+  //   );
+  // }
 
-  //#endregion
+  // //#endregion
 
-  //#region Ordering
-  if (
-    items["Accessories"].pickedLayerItem === "Butterfly Wings" ||
-    items["Accessories"].pickedLayerItem === "Wings"
-  ) {
-    for (const layer of Object.keys(items)) {
-      if (layer !== "Background") {
-        items[layer].priority += 1;
-      }
-    }
-    items["Accessories"].priority = 1;
-  }
-  if (items["Mouth"].pickedLayerItem === "Scuba") {
-    for (const layer of Object.keys(items)) {
-      if (layer !== "Background") {
-        items[layer].priority += 1;
-      }
-    }
-    items["Pseudo"] = {
-      pickedLayerItem: "Scuba",
-      priority: 1,
-    };
-  }
+  // //#region Ordering
+  // if (
+  //   items["Accessories"].pickedLayerItem === "Butterfly Wings" ||
+  //   items["Accessories"].pickedLayerItem === "Wings"
+  // ) {
+  //   for (const layer of Object.keys(items)) {
+  //     if (layer !== "Background") {
+  //       items[layer].priority += 1;
+  //     }
+  //   }
+  //   items["Accessories"].priority = 1;
+  // }
+  // if (items["Mouth"].pickedLayerItem === "Scuba") {
+  //   for (const layer of Object.keys(items)) {
+  //     if (layer !== "Background") {
+  //       items[layer].priority += 1;
+  //     }
+  //   }
+  //   items["Pseudo"] = {
+  //     pickedLayerItem: "Scuba",
+  //     priority: 1,
+  //   };
+  // }
 
-  if (
-    items["Mouth"].pickedLayerItem === "Microphone" &&
-    items["Eyes"].pickedLayerItem !== "Ray Eyes" &&
-    items["Eyes"].pickedLayerItem !== "Laser Eyes"
-  ) {
-    items["Mouth"].priority =
-      Object.entries(items)
-        .map((i) => i[1].priority)
-        .sort((a, b) => b - a)[0] + 1;
-  }
-  if (
-    items["Mouth"].pickedLayerItem === "Sneakers" &&
-    items["Head"].pickedLayerItem === "Cleopatra"
-  ) {
-    items["Mouth"].priority =
-      Object.entries(items)
-        .map((i) => i[1].priority)
-        .sort((a, b) => b - a)[0] + 1;
-  }
-  if (items["Accessories"].pickedLayerItem === "Egyptian Necklace") {
-    items["Accessories"].priority = items["Top"].priority - 0.1; // Behind by little.
-  }
-  if (items["Nose"].pickedLayerItem === "Butterfly") {
-    items["Nose"].priority =
-      Object.entries(items)
-        .map((i) => i[1].priority)
-        .sort((a, b) => b - a)[0] + 1;
-  }
-  if (
-    items["Eyes"].pickedLayerItem === "Ray Eyes" ||
-    items["Eyes"].pickedLayerItem === "Laser Eyes"
-  ) {
-    items["Eyes"].priority =
-      Object.entries(items)
-        .map((i) => i[1].priority)
-        .sort((a, b) => b - a)[0] + 1;
-  }
-  //#endregion
+  // if (
+  //   items["Mouth"].pickedLayerItem === "Microphone" &&
+  //   items["Eyes"].pickedLayerItem !== "Ray Eyes" &&
+  //   items["Eyes"].pickedLayerItem !== "Laser Eyes"
+  // ) {
+  //   items["Mouth"].priority =
+  //     Object.entries(items)
+  //       .map((i) => i[1].priority)
+  //       .sort((a, b) => b - a)[0] + 1;
+  // }
+  // if (
+  //   items["Mouth"].pickedLayerItem === "Sneakers" &&
+  //   items["Head"].pickedLayerItem === "Cleopatra"
+  // ) {
+  //   items["Mouth"].priority =
+  //     Object.entries(items)
+  //       .map((i) => i[1].priority)
+  //       .sort((a, b) => b - a)[0] + 1;
+  // }
+  // if (items["Accessories"].pickedLayerItem === "Egyptian Necklace") {
+  //   items["Accessories"].priority = items["Top"].priority - 0.1; // Behind by little.
+  // }
+  // if (items["Nose"].pickedLayerItem === "Butterfly") {
+  //   items["Nose"].priority =
+  //     Object.entries(items)
+  //       .map((i) => i[1].priority)
+  //       .sort((a, b) => b - a)[0] + 1;
+  // }
+  // if (
+  //   items["Eyes"].pickedLayerItem === "Ray Eyes" ||
+  //   items["Eyes"].pickedLayerItem === "Laser Eyes"
+  // ) {
+  //   items["Eyes"].priority =
+  //     Object.entries(items)
+  //       .map((i) => i[1].priority)
+  //       .sort((a, b) => b - a)[0] + 1;
+  // }
+  // //#endregion
   return items;
 };
 

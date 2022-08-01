@@ -10,7 +10,8 @@
   },
   "scripts": {
     "build": "yarn clean && tsc",
-    "clean": "rimraf bin"
+    "clean": "rimraf bin",
+    "nuke-ds-store": "find . -name \".DS_Store\" -delete"
   },
   "devDependencies": {
     "@types/async-retry": "^1.4.3",
