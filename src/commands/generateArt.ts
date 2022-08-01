@@ -189,6 +189,11 @@ DNA. We do not want the “horns” to be listed
     // };
   }
 
+  items["Pseudo-Backs"] = {
+    ...items["Clothing"],
+    priority: items["DNA"].priority - 0.1,
+  };
+
   // //#region JungleCats Lionesses
 
   // if (items["Skin"].pickedLayerItem === "Zombie") {
