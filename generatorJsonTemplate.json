@@ -1,13 +1,13 @@
 {
-  "name": "Lioness",
-  "symbol": "JCATSL",
+  "name": "Placeholder",
+  "symbol": "BSD",
   "image": "0.png",
-  "description": "The Queen of the Solana Jungle has arrived! These high-quality 3D Lionesses do a whole lot more than just look good. Just wait until you see these lionesses stomping around the metaverse! https://junglecats.io/",
-  "seller_fee_basis_points": 500,
+  "description": "Placeholder",
+  "seller_fee_basis_points": 700,
   "attributes": [],
   "collection": {
-    "name": "Lionesses",
-    "family": "JungleCats"
+    "name": "Placeholder",
+    "family": "Placeholder"
   },
   "properties": {
     "files": [
@@ -19,12 +19,8 @@
     "category": "image",
     "creators": [
       {
-        "address": "JCTZQ7fzLkS9j3z4bmwmsJuqzpDyqxLB2NwdGdajk2Wm",
-        "share": 90
-      },
-      {
-        "address": "daoXo7FeRBb4gonerEKhGB5X8rkC9ag16s7cspLYR9g",
-        "share": 10
+        "address": "CTxpCrWetwCfHTAQCTRVRomduh3PEZ87qd1couAnUNEQ",
+        "share": 100
       }
     ]
   }
