@@ -71,6 +71,80 @@ const pickLayers = (
   );
 
   // TODO: Move this into a re-ordering worker plugin.
+
+  // #region Based
+  /**
+   * For each Devil DNA (both Male & Female) there
+are corresponding color DEVIL HORNS which
+should be attached as a TOP LAYER to all Devil
+DNA. We do not want the “horns” to be listed
+“trait” or “property” on secondary, etc.
+   */
+  if (items["DNA"].pickedLayerItem === "Devil Green") {
+    items["Pseudo-Devil Horns"] = {
+      pickedLayerItem: "His Green Devil Horns",
+      priority: 8,
+    };
+  }
+  if (items["DNA"].pickedLayerItem === "Devil Purple") {
+    items["Pseudo-Devil Horns"] = {
+      pickedLayerItem: "His Purple Devil Horns",
+      priority: 8,
+    };
+  }
+  if (items["DNA"].pickedLayerItem === "Devil Red") {
+    items["Pseudo-Devil Horns"] = {
+      pickedLayerItem: "His Red Devil Horns",
+      priority: 8,
+    };
+  }
+
+  if (
+    items["DNA"].pickedLayerItem.includes("Pixel") ||
+    items["DNA"].pickedLayerItem.includes("Flowers") ||
+    items["DNA"].pickedLayerItem.includes("Taped") ||
+    items["DNA"].pickedLayerItem.includes("Bad Frens")
+  ) {
+    items["Nose"] = { ...items["Nose"], pickedLayerItem: "None" };
+    items["Mouth"] = { ...items["Mouth"], pickedLayerItem: "None" };
+    items["Teardrop"] = { ...items["Teardrop"], pickedLayerItem: "None" };
+  }
+
+  if (
+    items["DNA"].pickedLayerItem.includes("Robot") ||
+    items["DNA"].pickedLayerItem.includes("Crystal") ||
+    items["DNA"].pickedLayerItem.includes("Devil") ||
+    items["DNA"].pickedLayerItem.includes("Spirit") ||
+    items["DNA"].pickedLayerItem.includes("Sky")
+  ) {
+    const maleSplit = {
+      items: [
+        "Bad Frens Blue Split",
+        "Bad Frens Mono Split",
+        "Bad Frens Pink Split",
+        "Flowers Mono Split",
+        "Flowers Rainbow Split",
+        "Flowers Vintage Split",
+        "None",
+        "Pixel Fire Split",
+        "Pixel Mono Split",
+        "Pixel Rainbow Split",
+        "Taped Caution Split",
+        "Taped Mono Split",
+        "Taped Rainbow Split",
+      ],
+      weights: [
+        0.72, 0.81, 0.9, 0.27, 0.22, 0.32, 95.05, 0.13, 0.09, 0.05, 0.54, 0.47,
+        0.43,
+      ],
+      priority: 6,
+    };
+    items["DNA Split"] = {
+      priority: maleSplit.priority,
+      pickedLayerItem: chance.weighted(maleSplit.items, maleSplit.weights),
+    };
+  }
+
   // //#region JungleCats Lionesses
 
   // if (items["Skin"].pickedLayerItem === "Zombie") {
