@@ -22,7 +22,7 @@ export const writeMetadataJson = async (
       trait_type: layerName,
       value: item,
     })
-  );
+  ).filter(i => !i.trait_type.includes("Pseudo"));
   jsonTemplateForItem.image = `${i}.${outputFormat}`;
   const metaDataUri = `${outputPath}/${i}.json`;
   await fs.writeFile(

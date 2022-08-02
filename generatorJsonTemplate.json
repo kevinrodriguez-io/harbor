@@ -1,13 +1,13 @@
 {
-  "name": "Placeholder",
+  "name": "MKRS",
   "symbol": "BSD",
   "image": "0.png",
-  "description": "Placeholder",
+  "description": "It takes the MKRS to get Based.",
   "seller_fee_basis_points": 700,
   "attributes": [],
   "collection": {
-    "name": "Placeholder",
-    "family": "Placeholder"
+    "name": "MKRS",
+    "family": "BASED"
   },
   "properties": {
     "files": [

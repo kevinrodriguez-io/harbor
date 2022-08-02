@@ -88,43 +88,43 @@ should be attached as a TOP LAYER to all Devil
 DNA. We do not want the “horns” to be listed
 “trait” or “property” on secondary, etc.
    */
-  // if (items["DNA"].pickedLayerItem === "Devil Green") {
-  //   items["Pseudo-Devil Horns"] = {
-  //     pickedLayerItem: "His Green Devil Horns",
-  //     priority: 8,
-  //   };
-  // }
-  // if (items["DNA"].pickedLayerItem === "Devil Purple") {
-  //   items["Pseudo-Devil Horns"] = {
-  //     pickedLayerItem: "His Purple Devil Horns",
-  //     priority: 8,
-  //   };
-  // }
-  // if (items["DNA"].pickedLayerItem === "Devil Red") {
-  //   items["Pseudo-Devil Horns"] = {
-  //     pickedLayerItem: "His Red Devil Horns",
-  //     priority: 8,
-  //   };
-  // }
+  if (items["DNA"].pickedLayerItem === "Devil Green") {
+    items["Pseudo-Devil Horns"] = {
+      pickedLayerItem: "His Green Devil Horns",
+      priority: 8,
+    };
+  }
+  if (items["DNA"].pickedLayerItem === "Devil Purple") {
+    items["Pseudo-Devil Horns"] = {
+      pickedLayerItem: "His Purple Devil Horns",
+      priority: 8,
+    };
+  }
+  if (items["DNA"].pickedLayerItem === "Devil Red") {
+    items["Pseudo-Devil Horns"] = {
+      pickedLayerItem: "His Red Devil Horns",
+      priority: 8,
+    };
+  }
 
-  if (items["DNA"].pickedLayerItem.includes("Devil Green")) {
-    items["Pseudo-Devil Horns"] = {
-      pickedLayerItem: "Her Green Devil Horns",
-      priority: 8,
-    };
-  }
-  if (items["DNA"].pickedLayerItem.includes("Devil Purple")) {
-    items["Pseudo-Devil Horns"] = {
-      pickedLayerItem: "Her Purple Devil Horns",
-      priority: 8,
-    };
-  }
-  if (items["DNA"].pickedLayerItem.includes("Devil Red")) {
-    items["Pseudo-Devil Horns"] = {
-      pickedLayerItem: "Her Red Devil Horns",
-      priority: 8,
-    };
-  }
+  // if (items["DNA"].pickedLayerItem.includes("Devil Green")) {
+  //   items["Pseudo-Devil Horns"] = {
+  //     pickedLayerItem: "Her Green Devil Horns",
+  //     priority: 8,
+  //   };
+  // }
+  // if (items["DNA"].pickedLayerItem.includes("Devil Purple")) {
+  //   items["Pseudo-Devil Horns"] = {
+  //     pickedLayerItem: "Her Purple Devil Horns",
+  //     priority: 8,
+  //   };
+  // }
+  // if (items["DNA"].pickedLayerItem.includes("Devil Red")) {
+  //   items["Pseudo-Devil Horns"] = {
+  //     pickedLayerItem: "Her Red Devil Horns",
+  //     priority: 8,
+  //   };
+  // }
 
   if (
     items["DNA"].pickedLayerItem.includes("Pixel") ||
@@ -144,49 +144,49 @@ DNA. We do not want the “horns” to be listed
     items["DNA"].pickedLayerItem.includes("Spirit") ||
     items["DNA"].pickedLayerItem.includes("Sky")
   ) {
-    const femaleSplit = {
-      items: [
-        "None",
-        "Painted Mono",
-        "Painted Rainbow",
-        "Painted Vintage",
-        "Taped Caution",
-        "Taped Mono",
-        "Taped Rainbow",
-      ],
-      weights: [94.95, 0.36, 0.18, 0.45, 1.58, 1.35, 1.13],
-      priority: 6,
-    };
-    items["DNA Split"] = {
-      priority: femaleSplit.priority,
-      pickedLayerItem: chance.weighted(femaleSplit.items, femaleSplit.weights),
-    };
-    // const maleSplit = {
+    // const femaleSplit = {
     //   items: [
-    //     "Bad Frens Blue Split",
-    //     "Bad Frens Mono Split",
-    //     "Bad Frens Pink Split",
-    //     "Flowers Mono Split",
-    //     "Flowers Rainbow Split",
-    //     "Flowers Vintage Split",
     //     "None",
-    //     "Pixel Fire Split",
-    //     "Pixel Mono Split",
-    //     "Pixel Rainbow Split",
-    //     "Taped Caution Split",
-    //     "Taped Mono Split",
-    //     "Taped Rainbow Split",
+    //     "Painted Mono",
+    //     "Painted Rainbow",
+    //     "Painted Vintage",
+    //     "Taped Caution",
+    //     "Taped Mono",
+    //     "Taped Rainbow",
     //   ],
-    //   weights: [
-    //     0.72, 0.81, 0.9, 0.27, 0.22, 0.32, 95.05, 0.13, 0.09, 0.05, 0.54, 0.47,
-    //     0.43,
-    //   ],
+    //   weights: [94.95, 0.36, 0.18, 0.45, 1.58, 1.35, 1.13],
     //   priority: 6,
     // };
     // items["DNA Split"] = {
-    //   priority: maleSplit.priority,
-    //   pickedLayerItem: chance.weighted(maleSplit.items, maleSplit.weights),
+    //   priority: femaleSplit.priority,
+    //   pickedLayerItem: chance.weighted(femaleSplit.items, femaleSplit.weights),
     // };
+    const maleSplit = {
+      items: [
+        "Bad Frens Blue Split",
+        "Bad Frens Mono Split",
+        "Bad Frens Pink Split",
+        "Flowers Mono Split",
+        "Flowers Rainbow Split",
+        "Flowers Vintage Split",
+        "None",
+        "Pixel Fire Split",
+        "Pixel Mono Split",
+        "Pixel Rainbow Split",
+        "Taped Caution Split",
+        "Taped Mono Split",
+        "Taped Rainbow Split",
+      ],
+      weights: [
+        0.72, 0.81, 0.9, 0.27, 0.22, 0.32, 95.05, 0.13, 0.09, 0.05, 0.54, 0.47,
+        0.43,
+      ],
+      priority: 6,
+    };
+    items["DNA Split"] = {
+      priority: maleSplit.priority,
+      pickedLayerItem: chance.weighted(maleSplit.items, maleSplit.weights),
+    };
   }
 
   items["Pseudo-Backs"] = {
